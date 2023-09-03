@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ApifoxUploaderProjectSetting">
+    <option name="apifoxAccessToken" value="APS-nS685G4jxxF3W3hhYbd79XZx5ED2WoV7" />
+    <option name="apifoxApiOverwriteMode" value="覆盖所有字段" />
+    <option name="apifoxProjectIds">
+      <array>
+        <option value="# ModuleName:ProjectID" />
+        <option value="store-front-user:3036778,用户" />
+        <option value="store-front-carousel:3036778,循环展示" />
+        <option value="store-front-category:3036778,商品分类" />
+        <option value="store-front-product:3036778,商品模块" />
+        <option value="store-back:3036778,后台管理" />
+      </array>
+    </option>
+    <option name="yapiTokens" value="" />
+  </component>
+</project>

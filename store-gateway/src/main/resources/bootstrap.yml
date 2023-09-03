@@ -1,0 +1,11 @@
+server:
+  port: 3000 # 前端访问端口为3000
+  servlet:
+    context-path: / # 前端访问的根路径
+spring:
+  application:
+    name: gateway-service  # 程序名-服务名
+  cloud:
+    nacos:
+      #bootstrap默认配置Ip地址为本机，bootstrap的优先级比application要高
+      server-addr: 192.168.136.128:8848 #nacos注册中心

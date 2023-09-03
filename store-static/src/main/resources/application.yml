@@ -1,0 +1,7 @@
+spring:
+  mvc:
+    static-path-pattern: /public/**
+#    访问url
+  resources:
+    static-locations: classpath:/public/
+#    (前台)静态资源路径
