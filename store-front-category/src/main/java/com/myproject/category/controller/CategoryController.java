@@ -4,13 +4,13 @@ package com.myproject.category.controller;/**
  */
 
 import com.myproject.category.service.CategoryService;
+import com.myproject.request.CategoryListRequest;
 import com.myproject.utils.R;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @program: my-store
@@ -35,5 +35,13 @@ public class CategoryController {
             return R.fail("类别名称为空，查询失败");
         }
         return categoryService.getIdByName(categoryName);
+    }
+
+    @PostMapping("hots")
+    public R hotsCategory(@RequestBody @Validated CategoryListRequest categoryListRequest,BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return R.fail("类别集合查询失败");
+        }
+        return categoryService.hotsCategory(categoryListRequest);
     }
 }

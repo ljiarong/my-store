@@ -1,9 +1,12 @@
 package com.myproject.clients;
 
+import com.myproject.request.CategoryListRequest;
 import com.myproject.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * ClassName: CategoryClient
@@ -13,4 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CategoryClient {
     @GetMapping("/category/promo/{categoryName}")
     R getIdByName(@PathVariable String categoryName);
+
+    @PostMapping("/category/hots")
+    R hots(@RequestBody CategoryListRequest categoryListRequest);
 }

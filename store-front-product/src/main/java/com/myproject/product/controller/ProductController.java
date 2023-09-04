@@ -4,6 +4,7 @@ package com.myproject.product.controller;/**
  */
 
 import com.myproject.product.service.ProductService;
+import com.myproject.request.CategoryListRequest;
 import com.myproject.request.CategoryNameRequest;
 import com.myproject.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,13 @@ public class ProductController {
             return R.fail("查询类别失败，类别名称不能为空");
         }
         return productService.promo(categoryNameRequest.getCategoryName());
+    }
+
+    @PostMapping("hots")
+    public R hots(@RequestBody @Validated CategoryListRequest categoryListRequest,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return R.fail("查询失败，类别列表不能为空");
+        }
+        return productService.hots(categoryListRequest);
     }
 }

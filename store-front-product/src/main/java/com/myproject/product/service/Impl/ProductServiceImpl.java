@@ -11,6 +11,7 @@ import com.myproject.pojo.Category;
 import com.myproject.pojo.Product;
 import com.myproject.product.mapper.ProductMapper;
 import com.myproject.product.service.ProductService;
+import com.myproject.request.CategoryListRequest;
 import com.myproject.request.CategoryNameRequest;
 import com.myproject.utils.R;
 import lombok.extern.slf4j.Slf4j;
@@ -63,5 +64,23 @@ public class ProductServiceImpl implements ProductService {
 
         log.info("ProductServiceImpl执行结束，结果{查询成功}");
         return R.ok("查询成功",productIPage);
+    }
+
+    @Override
+    public R hots(CategoryListRequest categoryListRequest) {
+        R r = categoryClient.hots(categoryListRequest);
+        if(r.getCode().equals(R.FAIL_CODE)){
+            log.info("ProductServiceImpl执行结束，结果{查询失败}");
+            return r;
+        }
+        List<Object> ids = (List<Object>) r.getData();
+        QueryWrapper<Product> productQueryWrapper=new QueryWrapper<>();
+        productQueryWrapper.in("category_id",ids).orderByDesc("product_sales");
+        IPage<Product> productIPage=new Page<>(1,7);
+        productIPage=productMapper.selectPage(productIPage,productQueryWrapper);
+        List<Product> results=productIPage.getRecords();
+        R ok = R.ok("多类别热门商品查询成功", results);
+
+        return ok;
     }
 }
