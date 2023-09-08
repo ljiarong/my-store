@@ -1,5 +1,6 @@
 package com.myproject.product.service;
 
+import com.myproject.request.CategoryIdList;
 import com.myproject.request.CategoryListRequest;
 import com.myproject.request.CategoryNameRequest;
 import com.myproject.utils.R;
@@ -21,4 +22,16 @@ public interface ProductService {
     * @Return 
     */
     R hots(CategoryListRequest categoryListRequest);
+
+    R clist();
+
+    /**
+    * @Author: ljr
+    * @Description: 为空时查询所有商品
+    * @DateTime: 2023/9/8
+    * @Params: 
+    * @Return 
+    */
+    R getProductByCategoryId(CategoryIdList categoryIdList);
+    
 }

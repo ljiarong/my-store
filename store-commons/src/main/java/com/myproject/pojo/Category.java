@@ -25,7 +25,9 @@ import java.io.Serializable;
 public class Category implements Serializable {
     public static final Long serialVersionUid= 1L;
     @TableId(type = IdType.AUTO)
+    @JsonProperty("category_id")
     private Integer categoryId;
 
+    @JsonProperty("category_name")
     private String categoryName;
 }

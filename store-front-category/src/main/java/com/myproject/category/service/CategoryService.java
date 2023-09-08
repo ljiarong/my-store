@@ -20,4 +20,6 @@ public interface CategoryService {
     * @Return 
     */
     R hotsCategory(CategoryListRequest categoryListRequest);
+
+    R getCategoryList();
 }

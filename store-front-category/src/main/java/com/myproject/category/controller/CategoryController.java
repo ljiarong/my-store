@@ -44,4 +44,9 @@ public class CategoryController {
         }
         return categoryService.hotsCategory(categoryListRequest);
     }
+
+    @GetMapping("list")
+    public R categoryList(){
+        return categoryService.getCategoryList();
+    }
 }

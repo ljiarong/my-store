@@ -53,4 +53,12 @@ public class CategoryServiceImpl implements CategoryService {
 
         return ok;
     }
+
+    @Override
+    public R getCategoryList() {
+        List<Category> categories = categoryMapper.selectList(null);
+        R result = R.ok("所有类别数据查询成功", categories);
+        log.info("CategoryServiceImpl执行结束，结果{getCategoryList查询成功}");
+        return result;
+    }
 }

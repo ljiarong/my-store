@@ -11,6 +11,7 @@ import com.myproject.pojo.Category;
 import com.myproject.pojo.Product;
 import com.myproject.product.mapper.ProductMapper;
 import com.myproject.product.service.ProductService;
+import com.myproject.request.CategoryIdList;
 import com.myproject.request.CategoryListRequest;
 import com.myproject.request.CategoryNameRequest;
 import com.myproject.utils.R;
@@ -53,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
             return result;
         }
         LinkedHashMap<String,Object> categoryResult=(LinkedHashMap<String, Object>) result.getData();
-        Integer categoryId=(Integer) categoryResult.get("categoryId");
+        Integer categoryId=(Integer) categoryResult.get("category_id");
         QueryWrapper<Product> productQueryWrapper=new QueryWrapper<>();
         productQueryWrapper.eq("category_id",categoryId).orderByDesc("product_sales");
         IPage<Product> productIPage=new Page<>(1,7);
@@ -81,6 +82,28 @@ public class ProductServiceImpl implements ProductService {
         List<Product> results=productIPage.getRecords();
         R ok = R.ok("多类别热门商品查询成功", results);
 
+        return ok;
+    }
+
+    @Override
+    public R clist() {
+        R result=categoryClient.list();
+        log.info("ProductServiceImpl执行结束，结果{clist}",result);
+        return result;
+    }
+
+    @Override
+    public R getProductByCategoryId(CategoryIdList categoryIdList) {
+        List<Integer> categoryID = categoryIdList.getCategoryID();
+
+        QueryWrapper<Product> productQueryWrapper=new QueryWrapper<>();
+        if (!categoryID.isEmpty()) {
+            productQueryWrapper.in("category_id",categoryID).orderByDesc("product_sales");
+
+        }
+        IPage<Product> productIPage=new Page<>(categoryIdList.getCurrentPage(), categoryIdList.getPageSize());
+        productIPage=productMapper.selectPage(productIPage,productQueryWrapper);
+        R ok = R.ok("查询成功", productIPage.getRecords(), productIPage.getTotal());
         return ok;
     }
 }

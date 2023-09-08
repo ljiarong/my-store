@@ -19,4 +19,6 @@ public interface CategoryClient {
 
     @PostMapping("/category/hots")
     R hots(@RequestBody CategoryListRequest categoryListRequest);
+    @GetMapping("/category/list")
+    R list();
 }
