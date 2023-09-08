@@ -3,6 +3,7 @@ package com.myproject.product.service;
 import com.myproject.request.CategoryIdList;
 import com.myproject.request.CategoryListRequest;
 import com.myproject.request.CategoryNameRequest;
+import com.myproject.request.ProductIdRequest;
 import com.myproject.utils.R;
 
 /**
@@ -33,5 +34,8 @@ public interface ProductService {
     * @Return 
     */
     R getProductByCategoryId(CategoryIdList categoryIdList);
-    
+
+    R detailById(Integer productID);
+
+    R pictureById(Integer productID);
 }

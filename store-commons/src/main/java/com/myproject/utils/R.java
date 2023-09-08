@@ -36,6 +36,7 @@ public class R {
     public static final String USER_NO_LOGIN = "401";
 
 
+
     private String code;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String msg;

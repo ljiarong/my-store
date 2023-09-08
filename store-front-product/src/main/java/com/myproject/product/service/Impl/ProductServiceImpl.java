@@ -8,12 +8,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.myproject.clients.CategoryClient;
 import com.myproject.pojo.Category;
+import com.myproject.pojo.Picture;
 import com.myproject.pojo.Product;
+import com.myproject.product.mapper.PictureMapper;
 import com.myproject.product.mapper.ProductMapper;
 import com.myproject.product.service.ProductService;
 import com.myproject.request.CategoryIdList;
 import com.myproject.request.CategoryListRequest;
 import com.myproject.request.CategoryNameRequest;
+import com.myproject.request.ProductIdRequest;
 import com.myproject.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,9 @@ public class ProductServiceImpl implements ProductService {
     private CategoryClient categoryClient;
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private PictureMapper pictureMapper;
     /**
     * @Author: ljr
     * @Description: 查询类别商品
@@ -104,6 +110,22 @@ public class ProductServiceImpl implements ProductService {
         IPage<Product> productIPage=new Page<>(categoryIdList.getCurrentPage(), categoryIdList.getPageSize());
         productIPage=productMapper.selectPage(productIPage,productQueryWrapper);
         R ok = R.ok("查询成功", productIPage.getRecords(), productIPage.getTotal());
+        return ok;
+    }
+
+    @Override
+    public R detailById(Integer productID) {
+        Product product = productMapper.selectById(productID);
+        R ok = R.ok("查询成功", product);
+        log.info("ProductServiceImpl执行结束，结果{detailById}",ok);
+        return ok;
+    }
+
+    @Override
+    public R pictureById(Integer productID) {
+        Picture picture = pictureMapper.selectById(productID);
+        R ok = R.ok("查询成功", picture);
+        log.info("ProductServiceImpl执行结束，结果{pictureById查询成功}",ok);
         return ok;
     }
 }

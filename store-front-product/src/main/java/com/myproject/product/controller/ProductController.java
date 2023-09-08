@@ -7,6 +7,7 @@ import com.myproject.product.service.ProductService;
 import com.myproject.request.CategoryIdList;
 import com.myproject.request.CategoryListRequest;
 import com.myproject.request.CategoryNameRequest;
+import com.myproject.request.ProductIdRequest;
 import com.myproject.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -67,5 +68,21 @@ public class ProductController {
         }
         return productService.getProductByCategoryId(categoryIdList);
 
+    }
+
+    @PostMapping("detail")
+    public R getDetailById(@RequestBody @Validated ProductIdRequest productIdRequest,BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return R.fail("id不能为空");
+        }
+        return productService.detailById(productIdRequest.getProductID());
+    }
+
+    @PostMapping("pictures")
+    public R getPicturesById(@RequestBody @Validated ProductIdRequest productIdRequest,BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return R.fail("id不能为空");
+        }
+        return productService.pictureById(productIdRequest.getProductID());
     }
 }
