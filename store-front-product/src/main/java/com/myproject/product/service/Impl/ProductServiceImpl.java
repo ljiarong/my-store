@@ -123,7 +123,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public R pictureById(Integer productID) {
-        Picture picture = pictureMapper.selectById(productID);
+        QueryWrapper<Picture> pictureQueryWrapper=new QueryWrapper<>();
+        pictureQueryWrapper.eq("product_id",productID);
+        Picture picture = pictureMapper.selectOne(pictureQueryWrapper);
         R ok = R.ok("查询成功", picture);
         log.info("ProductServiceImpl执行结束，结果{pictureById查询成功}",ok);
         return ok;
