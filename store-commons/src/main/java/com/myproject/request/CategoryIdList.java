@@ -20,9 +20,7 @@ import java.util.List;
  **/
 @Data
 @NoArgsConstructor
-public class CategoryIdList {
+public class CategoryIdList extends PageRequest{
     @NotNull
     private List<Integer> categoryID;
-    private int currentPage=1;
-    private int pageSize=15;
 }

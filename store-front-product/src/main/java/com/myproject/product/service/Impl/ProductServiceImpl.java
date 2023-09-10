@@ -7,16 +7,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.myproject.clients.CategoryClient;
+import com.myproject.clients.ProductClient;
+import com.myproject.clients.SearchClient;
 import com.myproject.pojo.Category;
 import com.myproject.pojo.Picture;
 import com.myproject.pojo.Product;
 import com.myproject.product.mapper.PictureMapper;
 import com.myproject.product.mapper.ProductMapper;
 import com.myproject.product.service.ProductService;
-import com.myproject.request.CategoryIdList;
-import com.myproject.request.CategoryListRequest;
-import com.myproject.request.CategoryNameRequest;
-import com.myproject.request.ProductIdRequest;
+import com.myproject.request.*;
 import com.myproject.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,8 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryClient categoryClient;
+    @Autowired
+    private SearchClient searchClient;
     @Autowired
     private ProductMapper productMapper;
 
@@ -129,5 +130,18 @@ public class ProductServiceImpl implements ProductService {
         R ok = R.ok("查询成功", pictures);
         log.info("ProductServiceImpl执行结束，结果{pictureById查询成功}",ok);
         return ok;
+    }
+
+    @Override
+    public List<Product> getAllProduct() {
+        List<Product> result = productMapper.selectList(null);
+        log.info("ProductServiceImpl执行结束，结果{getAllProduct}",result);
+        return result;
+    }
+
+    @Override
+    public R searchProduct(ProductSearchRequest productSearchRequest) {
+        log.info("ProductServiceImpl执行结束，结果{searchProduct}");
+        return searchClient.searchProduct(productSearchRequest);
     }
 }

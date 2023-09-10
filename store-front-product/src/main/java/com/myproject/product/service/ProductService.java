@@ -1,10 +1,11 @@
 package com.myproject.product.service;
 
-import com.myproject.request.CategoryIdList;
-import com.myproject.request.CategoryListRequest;
-import com.myproject.request.CategoryNameRequest;
-import com.myproject.request.ProductIdRequest;
+import com.myproject.clients.ProductClient;
+import com.myproject.pojo.Product;
+import com.myproject.request.*;
 import com.myproject.utils.R;
+
+import java.util.List;
 
 /**
  * ClassName: ProductService
@@ -38,4 +39,15 @@ public interface ProductService {
     R detailById(Integer productID);
 
     R pictureById(Integer productID);
+
+    /**
+    * @Author: ljr
+    * @Description: 搜索服务获取全部商品数据
+    * @DateTime: 2023/9/9
+    * @Params:
+    * @Return
+    */
+    List<Product> getAllProduct();
+
+    R searchProduct(ProductSearchRequest productSearchRequest);
 }

@@ -16,6 +16,7 @@
         <module>store-front-carousel</module>
         <module>store-front-product</module>
         <module>store-front-category</module>
+        <module>store-search</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -11,6 +11,7 @@
         <option value="store-front-category:3036778,商品分类" />
         <option value="store-front-product:3036778,商品模块" />
         <option value="store-back:3036778,后台管理" />
+        <option value="store-search:3036778,搜索模块" />
       </array>
     </option>
     <option name="yapiTokens" value="" />
