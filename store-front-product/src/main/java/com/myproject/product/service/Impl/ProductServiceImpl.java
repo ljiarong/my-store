@@ -19,6 +19,7 @@ import com.myproject.request.*;
 import com.myproject.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.management.Query;
@@ -53,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
     * @Params: 
     * @Return 
     */
+    @Cacheable(value = "list.product",key = "#categoryName",cacheManager = "cacheManagerHour")
     @Override
     public R promo(String categoryName) {
         R result=categoryClient.getIdByName(categoryName);
@@ -71,9 +73,10 @@ public class ProductServiceImpl implements ProductService {
         long total=productIPage.getTotal();//获取总条数
 
         log.info("ProductServiceImpl执行结束，结果{查询成功}");
-        return R.ok("查询成功",productIPage);
+        return R.ok("查询成功",productList);
     }
 
+    @Cacheable(value = "list.product",key = "#categoryListRequest.categoryName")
     @Override
     public R hots(CategoryListRequest categoryListRequest) {
         R r = categoryClient.hots(categoryListRequest);
@@ -92,6 +95,7 @@ public class ProductServiceImpl implements ProductService {
         return ok;
     }
 
+    @Cacheable(value = "list.category",key = "#root.methodName",cacheManager = "cacheManagerDay")
     @Override
     public R clist() {
         R result=categoryClient.list();
@@ -99,6 +103,7 @@ public class ProductServiceImpl implements ProductService {
         return result;
     }
 
+    @Cacheable(value = "list.product",key = "#categoryIdList.categoryID+'-'+#categoryIdList.currentPage+'-'+#categoryIdList.pageSize")
     @Override
     public R getProductByCategoryId(CategoryIdList categoryIdList) {
         List<Integer> categoryID = categoryIdList.getCategoryID();
@@ -114,6 +119,7 @@ public class ProductServiceImpl implements ProductService {
         return ok;
     }
 
+    @Cacheable(value = "product",key = "#productID")
     @Override
     public R detailById(Integer productID) {
         Product product = productMapper.selectById(productID);
@@ -122,6 +128,7 @@ public class ProductServiceImpl implements ProductService {
         return ok;
     }
 
+    @Cacheable(value = "picture",key = "#productID")
     @Override
     public R pictureById(Integer productID) {
         QueryWrapper<Picture> pictureQueryWrapper=new QueryWrapper<>();
@@ -131,6 +138,8 @@ public class ProductServiceImpl implements ProductService {
         log.info("ProductServiceImpl执行结束，结果{pictureById查询成功}",ok);
         return ok;
     }
+
+
 
     @Override
     public List<Product> getAllProduct() {

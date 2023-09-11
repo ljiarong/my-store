@@ -10,6 +10,7 @@ import com.myproject.pojo.Carousel;
 import com.myproject.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +30,8 @@ import java.util.stream.Collectors;
 public class CarouselServiceImpl implements CarouselService {
     @Autowired
     private CarouselMapper carouselMapper;
+
+    @Cacheable(value = "list.carousel",key = "#root.methodName",cacheManager = "cacheManagerDay")
     @Override
     public R list() {
         QueryWrapper<Carousel> carouselQueryWrapper=new QueryWrapper<>();
