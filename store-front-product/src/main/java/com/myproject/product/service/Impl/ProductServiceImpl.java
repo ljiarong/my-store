@@ -153,4 +153,14 @@ public class ProductServiceImpl implements ProductService {
         log.info("ProductServiceImpl执行结束，结果{searchProduct}");
         return searchClient.searchProduct(productSearchRequest);
     }
+
+    @Override
+    public R getProductListById(ProductIdListRequest productIdListRequest) {
+        QueryWrapper<Product> productQueryWrapper=new QueryWrapper<>();
+        productQueryWrapper.in("product_id",productIdListRequest.getProductIdList());
+        List<Product> productList = productMapper.selectList(productQueryWrapper);
+        R ok = R.ok("查询成功", productList);
+        log.info("ProductServiceImpl执行结束，结果{getProductListById}",productList);
+        return ok;
+    }
 }

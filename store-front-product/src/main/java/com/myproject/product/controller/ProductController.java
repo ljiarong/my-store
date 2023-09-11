@@ -4,10 +4,7 @@ package com.myproject.product.controller;/**
  */
 
 import com.myproject.product.service.ProductService;
-import com.myproject.request.CategoryIdList;
-import com.myproject.request.CategoryListRequest;
-import com.myproject.request.CategoryNameRequest;
-import com.myproject.request.ProductIdRequest;
+import com.myproject.request.*;
 import com.myproject.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -84,5 +81,13 @@ public class ProductController {
             return R.fail("id不能为空");
         }
         return productService.pictureById(productIdRequest.getProductID());
+    }
+
+    @PostMapping("collect/list")
+    public R getProductListById(@RequestBody @Validated ProductIdListRequest productIdListRequest,BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return R.fail("没有收藏数据");
+        }
+        return productService.getProductListById(productIdListRequest);
     }
 }

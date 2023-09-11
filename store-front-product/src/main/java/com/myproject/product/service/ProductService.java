@@ -50,4 +50,6 @@ public interface ProductService {
     List<Product> getAllProduct();
 
     R searchProduct(ProductSearchRequest productSearchRequest);
+
+    R getProductListById(ProductIdListRequest productIdListRequest);
 }

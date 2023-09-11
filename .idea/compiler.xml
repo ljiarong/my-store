@@ -10,6 +10,7 @@
         <module name="store-front-category" />
         <module name="store-front-user" />
         <module name="store-front-product" />
+        <module name="store-front-collection" />
         <module name="store-static" />
         <module name="store-admin" />
         <module name="store-back" />
@@ -29,6 +30,7 @@
       <module name="store-commons" options="-parameters" />
       <module name="store-front-carousel" options="-parameters" />
       <module name="store-front-category" options="-parameters" />
+      <module name="store-front-collection" options="-parameters" />
       <module name="store-front-product" options="-parameters" />
       <module name="store-front-user" options="-parameters" />
       <module name="store-gateway" options="-parameters" />
