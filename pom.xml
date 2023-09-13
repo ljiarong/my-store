@@ -19,6 +19,8 @@
         <module>store-search</module>
         <module>store-front-collection</module>
         <module>store-front-collection</module>
+        <module>store-front-cart</module>
+        <module>store-front-order</module>
     </modules>
     <packaging>pom</packaging>
 

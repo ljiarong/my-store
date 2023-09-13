@@ -4,6 +4,7 @@ package com.myproject.request;/**
  */
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
  * @create: 2023-07-20 14:03
  **/
 @Data
+@NoArgsConstructor
 public class AddressRemoveRequest {
     @NotNull
     private Integer id;

@@ -6,6 +6,7 @@ package com.myproject.user.controller;/**
 import com.myproject.pojo.Address;
 import com.myproject.request.AddressListRequest;
 import com.myproject.request.AddressRemoveRequest;
+import com.myproject.request.AddressRequest;
 import com.myproject.user.service.AddressService;
 import com.myproject.utils.R;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class AddressController {
         return addressService.addressList(addressList.getUserId());
     }
     @PostMapping("save")
-    public R save(@RequestBody @Validated Address address,BindingResult bindingResult){
+    public R save(@RequestBody @Validated AddressRequest address, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return R.fail("地址保存失败");
         }

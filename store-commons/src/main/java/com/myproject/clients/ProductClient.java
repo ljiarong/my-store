@@ -2,10 +2,12 @@ package com.myproject.clients;
 
 import com.myproject.pojo.Product;
 import com.myproject.request.ProductIdListRequest;
+import com.myproject.request.ProductIdRequest;
 import com.myproject.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -20,5 +22,11 @@ public interface ProductClient {
     public List<Product> getAllProduct();
 
     @PostMapping("product/collect/list")
-    public R getProductListById(ProductIdListRequest productIdListRequest);
+    public R getProductListById(@RequestBody ProductIdListRequest productIdListRequest);
+
+    @PostMapping("product/cart/detail")
+    public Product productDetail(@RequestBody ProductIdRequest productIdRequest);
+
+    @PostMapping("product/cart/list")
+    public List<Product> productListById(@RequestBody ProductIdListRequest productIdListRequest);
 }

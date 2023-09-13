@@ -2,6 +2,7 @@ package com.myproject.user.service;
 
 import com.myproject.pojo.Address;
 import com.myproject.request.AddressListRequest;
+import com.myproject.request.AddressRequest;
 import com.myproject.utils.R;
 
 /**
@@ -11,7 +12,7 @@ import com.myproject.utils.R;
 public interface AddressService {
     R addressList(Integer userId);
 
-    R addAddress(Address address);
+    R addAddress(AddressRequest address);
 
     R removeAddress(Integer id);
 }

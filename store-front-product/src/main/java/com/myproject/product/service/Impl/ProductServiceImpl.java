@@ -6,9 +6,11 @@ package com.myproject.product.service.Impl;/**
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.myproject.clients.CategoryClient;
 import com.myproject.clients.ProductClient;
 import com.myproject.clients.SearchClient;
+import com.myproject.message.OrderToProduct;
 import com.myproject.pojo.Category;
 import com.myproject.pojo.Picture;
 import com.myproject.pojo.Product;
@@ -21,10 +23,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.Query;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @program: my-store
@@ -37,7 +43,7 @@ import java.util.List;
  **/
 @Service
 @Slf4j
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> implements ProductService {
     @Autowired
     private CategoryClient categoryClient;
     @Autowired
@@ -162,5 +168,30 @@ public class ProductServiceImpl implements ProductService {
         R ok = R.ok("查询成功", productList);
         log.info("ProductServiceImpl执行结束，结果{getProductListById}",productList);
         return ok;
+    }
+
+    @Override
+    public List<Product> productsById(ProductIdListRequest productIdListRequest) {
+        QueryWrapper<Product> productQueryWrapper=new QueryWrapper<>();
+        productQueryWrapper.in("product_id",productIdListRequest.getProductIdList());
+        List<Product> productList = productMapper.selectList(productQueryWrapper);
+        return productList;
+    }
+
+    @Override
+    @Transactional
+    public void subNumber(List<OrderToProduct> orderToProducts) {
+        Map<Integer, OrderToProduct> map = orderToProducts.stream().collect(Collectors.toMap(OrderToProduct::getProductId, v -> v));
+        Set<Integer> keySet = map.keySet();
+        List<Product> productList = productMapper.selectBatchIds(keySet);
+        for (Product product : productList) {
+            Integer Num = map.get(product.getProductId()).getNum();
+            product.setProductNum(product.getProductNum()-Num);
+            product.setProductSales(product.getProductSales()+Num);
+        }
+        //批量更新
+        updateBatchById(productList);
+        log.info("ProductServiceImpl执行结束，结果{subNumber修改完毕}");
+
     }
 }

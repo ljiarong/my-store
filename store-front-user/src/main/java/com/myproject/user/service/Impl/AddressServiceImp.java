@@ -6,6 +6,7 @@ package com.myproject.user.service.Impl;/**
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.myproject.pojo.Address;
 import com.myproject.request.AddressListRequest;
+import com.myproject.request.AddressRequest;
 import com.myproject.user.mapper.AddressMapper;
 import com.myproject.user.service.AddressService;
 import com.myproject.utils.R;
@@ -39,13 +40,15 @@ public class AddressServiceImp implements AddressService {
     }
 
     @Override
-    public R addAddress(Address address) {
-        int i = addressMapper.insert(address);
+    public R addAddress(AddressRequest address) {
+        Address address1=address.getAdd();
+        address1.setUserId(address.getUserId());
+        int i = addressMapper.insert(address1);
         if(i==0){
             log.info("AddressServiceImp执行结束，结果{插入失败}");
             return R.fail("插入失败");
         }
-        return addressList(address.getId());
+        return addressList(address1.getId());
     }
 
     @Override

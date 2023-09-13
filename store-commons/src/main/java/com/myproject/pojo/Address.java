@@ -29,7 +29,6 @@ public class Address implements Serializable {
     public static final Long serialVersionUID=1L;
 
     @TableId(type = IdType.AUTO)
-    @NotNull
     private Integer id;  //包装类默认为null,int默认有值
     @NotBlank
     private String linkman;
@@ -38,6 +37,5 @@ public class Address implements Serializable {
     @NotBlank
     private String address;
 //    @TableField("user_id")
-    @NotNull
-    private String userId;
+    private Integer userId;
 }

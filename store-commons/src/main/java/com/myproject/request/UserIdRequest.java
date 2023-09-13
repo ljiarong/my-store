@@ -3,6 +3,7 @@ package com.myproject.request;/**
  * Package: com.myproject.request
  */
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -19,5 +20,6 @@ import javax.validation.constraints.NotNull;
 @Data
 public class UserIdRequest {
     @NotNull
+    @JsonProperty("user_id")
     private Integer userId;
 }

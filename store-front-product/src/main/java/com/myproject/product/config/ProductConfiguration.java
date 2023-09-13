@@ -4,7 +4,10 @@ package com.myproject.product.config;/**
  */
 
 import com.myproject.config.CacheConfiguration;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @program: my-store
@@ -17,4 +20,9 @@ import org.springframework.boot.SpringBootConfiguration;
  **/
 @SpringBootConfiguration
 public class ProductConfiguration extends CacheConfiguration {
+
+    @Bean
+    public MessageConverter messageConverter(){
+        return new Jackson2JsonMessageConverter();
+    }
 }

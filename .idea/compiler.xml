@@ -7,17 +7,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="store-front-category" />
-        <module name="store-front-user" />
         <module name="store-front-product" />
         <module name="store-front-collection" />
         <module name="store-static" />
+        <module name="store-commons" />
+        <module name="store-front-category" />
+        <module name="store-front-user" />
+        <module name="store-front-cart" />
+        <module name="store-front-order" />
         <module name="store-admin" />
         <module name="store-back" />
         <module name="store-front-carousel" />
         <module name="store-search" />
         <module name="store-gateway" />
-        <module name="store-commons" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -29,8 +31,10 @@
       <module name="store-back" options="-parameters" />
       <module name="store-commons" options="-parameters" />
       <module name="store-front-carousel" options="-parameters" />
+      <module name="store-front-cart" options="-parameters" />
       <module name="store-front-category" options="-parameters" />
       <module name="store-front-collection" options="-parameters" />
+      <module name="store-front-order" options="-parameters" />
       <module name="store-front-product" options="-parameters" />
       <module name="store-front-user" options="-parameters" />
       <module name="store-gateway" options="-parameters" />
