@@ -2,6 +2,7 @@ package com.myproject.admin.service;
 
 import com.myproject.admin.pojo.AdminUser;
 import com.myproject.admin.request.AdminUserRequest;
+import com.myproject.pojo.Category;
 import com.myproject.pojo.User;
 import com.myproject.request.PageRequest;
 import com.myproject.request.UserIdRequest;
@@ -21,4 +22,12 @@ public interface AdminService {
     R userUpdate(User user);
 
     R userSave(User user);
+
+    R categoryList(PageRequest pageRequest);
+
+    R saveCategory(Category category);
+
+    R categoryRemove(Integer categoryId);
+
+    R categoryUpdate(Category category);
 }

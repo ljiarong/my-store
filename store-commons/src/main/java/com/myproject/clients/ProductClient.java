@@ -29,4 +29,6 @@ public interface ProductClient {
 
     @PostMapping("product/cart/list")
     public List<Product> productListById(@RequestBody ProductIdListRequest productIdListRequest);
+    @PostMapping("product/count")
+    public Long productCount(@RequestBody Integer categoryId);
 }

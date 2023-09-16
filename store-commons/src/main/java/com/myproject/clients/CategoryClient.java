@@ -1,6 +1,8 @@
 package com.myproject.clients;
 
+import com.myproject.pojo.Category;
 import com.myproject.request.CategoryListRequest;
+import com.myproject.request.PageRequest;
 import com.myproject.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,4 +23,16 @@ public interface CategoryClient {
     R hots(@RequestBody CategoryListRequest categoryListRequest);
     @GetMapping("/category/list")
     R list();
+
+    @PostMapping("/admin/category/list")
+    R adminCategoryList(@RequestBody PageRequest pageRequest);
+
+    @PostMapping("/admin/category/save")
+    R categorySave(@RequestBody Category category);
+
+    @PostMapping("/admin/category/delete")
+    R categoryDelete(@RequestBody Integer categoryId);
+    @PostMapping("/admin/category/update")
+    R categoryUpdate(@RequestBody Category category);
+
 }

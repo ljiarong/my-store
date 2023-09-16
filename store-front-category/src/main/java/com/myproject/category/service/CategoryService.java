@@ -1,6 +1,8 @@
 package com.myproject.category.service;
 
+import com.myproject.pojo.Category;
 import com.myproject.request.CategoryListRequest;
+import com.myproject.request.PageRequest;
 import com.myproject.utils.R;
 
 /**
@@ -22,4 +24,12 @@ public interface CategoryService {
     R hotsCategory(CategoryListRequest categoryListRequest);
 
     R getCategoryList();
+
+    R categoryListPage(PageRequest pageRequest);
+
+    R saveCategory(Category category);
+
+    R categoryDelete(Integer categoryId);
+
+    R categoryUpdate(Category category);
 }

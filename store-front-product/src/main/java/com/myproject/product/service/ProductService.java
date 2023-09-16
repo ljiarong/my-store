@@ -58,4 +58,6 @@ public interface ProductService extends IService<Product> {
     List<Product> productsById(ProductIdListRequest productIdListRequest);
 
     void subNumber(List<OrderToProduct> orderToProducts);
+
+    Long productCount(Integer categoryId);
 }

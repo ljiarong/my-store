@@ -4,11 +4,15 @@ package com.myproject.admin.service.Impl;/**
  */
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.myproject.admin.mapper.AdminMapper;
 import com.myproject.admin.pojo.AdminUser;
 import com.myproject.admin.request.AdminUserRequest;
 import com.myproject.admin.service.AdminService;
+import com.myproject.clients.CategoryClient;
 import com.myproject.clients.UserClient;
+import com.myproject.pojo.Category;
 import com.myproject.pojo.User;
 import com.myproject.request.PageRequest;
 import com.myproject.request.UserIdRequest;
@@ -19,6 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @program: my-store
@@ -36,6 +42,8 @@ public class AdminServiceImpl implements AdminService {
     private AdminMapper adminMapper;
     @Autowired
     private UserClient userClient;
+    @Autowired
+    private CategoryClient categoryClient;
 
     @Override
     public AdminUser login(AdminUserRequest adminUserRequest) {
@@ -75,6 +83,37 @@ public class AdminServiceImpl implements AdminService {
     public R userSave(User user) {
         R r = userClient.userSave(user);
         log.info("AdminServiceImpl执行结束，结果{userSave}",r);
+        return r;
+    }
+
+    @Cacheable(key = "#pageRequest.currentPage+'-'+#pageRequest.pageSize",value = "list.category",cacheManager ="cacheManagerHour" )
+    @Override
+    public R categoryList(PageRequest pageRequest) {
+        R r = categoryClient.adminCategoryList(pageRequest);
+        log.info("AdminServiceImpl执行结束，结果{categoryList}");
+        return r;
+    }
+
+    @CacheEvict(value = "list.category",allEntries = true)
+    @Override
+    public R saveCategory(Category category) {
+        R r = categoryClient.categorySave(category);
+        log.info("AdminServiceImpl执行结束，结果{saveCategory}",r);
+        return r;
+    }
+    @CacheEvict(value = "list.category",allEntries = true)
+    @Override
+    public R categoryRemove(Integer categoryId) {
+        R r = categoryClient.categoryDelete(categoryId);
+        log.info("AdminServiceImpl执行结束，结果{categoryRemove}",r);
+        return r;
+    }
+
+    @CacheEvict(value = "list.category",allEntries = true)
+    @Override
+    public R categoryUpdate(Category category) {
+        R r = categoryClient.categoryUpdate(category);
+        log.info("AdminServiceImpl执行结束，结果{categoryUpdate}",r);
         return r;
     }
 }

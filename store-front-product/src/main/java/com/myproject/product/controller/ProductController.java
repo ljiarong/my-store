@@ -9,10 +9,7 @@ import com.myproject.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @program: my-store
@@ -89,5 +86,10 @@ public class ProductController {
             return R.fail("没有收藏数据");
         }
         return productService.getProductListById(productIdListRequest);
+    }
+
+    @PostMapping("count")
+    public Long productCount(@RequestBody Integer categoryId){
+        return productService.productCount(categoryId);
     }
 }

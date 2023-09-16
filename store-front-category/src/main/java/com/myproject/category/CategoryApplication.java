@@ -3,9 +3,11 @@ package com.myproject.category;/**
  * Package: com.myproject.category
  */
 
+import com.myproject.clients.ProductClient;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @program: my-store
@@ -18,6 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  **/
 @SpringBootApplication
 @MapperScan(basePackages = "com.myproject.category.mapper")
+@EnableFeignClients(clients = {ProductClient.class})
 public class CategoryApplication {
     public static void main(String[] args) {
         SpringApplication.run(CategoryApplication.class,args);

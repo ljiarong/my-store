@@ -1,1 +1,1 @@
-{"cookies":[],"hosts":["http://localhost:3000","http://localhost:3000/","http://localhost:8080"]}
+{"cookies":["{\"name\":\"JSESSIONID\",\"value\":\"7205CC2A6BEAD5414EA08661BAB8965A\",\"domain\":\"localhost\",\"path\":\"/admin\",\"version\":0,\"secure\":false}","{\"name\":\"JSESSIONID\",\"value\":\"043B8617DB79AA7D00DFBC73363C5CD7\",\"domain\":\"localhost\",\"path\":\"/admin\",\"version\":0,\"secure\":false}"],"hosts":["http://localhost:3011","http://localhost:3000","http://localhost:3000/","http://localhost:8080"]}

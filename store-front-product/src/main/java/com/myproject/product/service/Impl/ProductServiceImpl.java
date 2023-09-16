@@ -194,4 +194,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
         log.info("ProductServiceImpl执行结束，结果{subNumber修改完毕}");
 
     }
+
+    @Override
+    public Long productCount(Integer categoryId) {
+        QueryWrapper<Product> productQueryWrapper=new QueryWrapper<>();
+        productQueryWrapper.eq("category_id",categoryId);
+        Long aLong = baseMapper.selectCount(productQueryWrapper);
+        return aLong;
+    }
 }
