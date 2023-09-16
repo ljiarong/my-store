@@ -48,6 +48,7 @@ public class MD5Util {
         int radix = 16;
         String encoded = bigInteger.toString(radix).toUpperCase();
 
+
         return encoded;
     }
 }

@@ -27,7 +27,7 @@ mybatis-plus:
   type-aliases-package: com.myproject.pojo #扫描包
 ribbon:
   ReadTimeout: 60000
-  ConnectTimeout: 60000
+  ConnectTimeout: 60000     #超时时间
   eager-load:
     enabled: true #开启饥饿加载提升第一次访问速度
     clients:
