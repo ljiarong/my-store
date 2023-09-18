@@ -4,7 +4,8 @@ package com.myproject.order.service.Impl;/**
  */
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.injector.methods.SelectById;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.myproject.clients.ProductClient;
 import com.myproject.message.OrderToProduct;
@@ -13,6 +14,7 @@ import com.myproject.order.service.OrderService;
 import com.myproject.pojo.Order;
 import com.myproject.pojo.Product;
 import com.myproject.request.OrderRequest;
+import com.myproject.request.PageRequest;
 import com.myproject.request.ProductIdListRequest;
 import com.myproject.utils.R;
 import com.myproject.vo.CartVo;
@@ -27,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -131,5 +132,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderQueryWrapper.eq("product_id",productId);
         long count = count(orderQueryWrapper);
         return count;
+    }
+
+    @Override
+    public R orderListGroup(PageRequest pageRequest) {
+        QueryWrapper<Order> orderQueryWrapper=new QueryWrapper<>();
+        orderQueryWrapper.select("order_id","user_id","COUNT(*) as product_num","SUM(product_num) as order_num","SUM(product_num * product_price) as order_price","order_time").groupBy("order_id");
+//        IPage<OrderListVo> listVoIPage=new Page<>(pageRequest.getCurrentPage(), pageRequest.getPageSize());  //也可以自定义vo
+        IPage<Map<String,Object>> listVoIPage=new Page<>(pageRequest.getCurrentPage(), pageRequest.getPageSize());
+        listVoIPage=baseMapper.selectMapsPage(listVoIPage,orderQueryWrapper);
+        return R.ok("订单查询成功",listVoIPage.getRecords(),listVoIPage.getTotal());
     }
 }

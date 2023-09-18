@@ -3,6 +3,9 @@ package com.myproject.order.config;/**
  * Package: com.myproject.order.config
  */
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.SpringBootConfiguration;
@@ -22,5 +25,12 @@ public class configuration {
     @Bean
     public MessageConverter messageConverter(){
         return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor(){
+        MybatisPlusInterceptor mybatisPlusInterceptor=new MybatisPlusInterceptor();
+        mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return mybatisPlusInterceptor;
     }
 }

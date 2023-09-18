@@ -5,6 +5,7 @@ package com.myproject.order.controller;/**
 
 import com.myproject.order.service.OrderService;
 import com.myproject.request.OrderRequest;
+import com.myproject.request.PageRequest;
 import com.myproject.request.UserIdRequest;
 import com.myproject.utils.R;
 import com.myproject.vo.OrderVO;
@@ -52,5 +53,10 @@ public class OrderController {
     @PostMapping("count")
     public Long prductCount(@RequestBody Integer productId){
         return orderService.productCount(productId);
+    }
+
+    @PostMapping("list/group")
+    public R orderListGroup(@RequestBody PageRequest pageRequest){
+        return orderService.orderListGroup(pageRequest);
     }
 }

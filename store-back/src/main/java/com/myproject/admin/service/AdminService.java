@@ -41,4 +41,8 @@ public interface AdminService {
     R updateProduct(Product product);
 
     R removeProduct(Integer productId);
+
+    R orderList(PageRequest pageRequest);
+
+
 }

@@ -10,10 +10,7 @@ import com.myproject.admin.mapper.AdminMapper;
 import com.myproject.admin.pojo.AdminUser;
 import com.myproject.admin.request.AdminUserRequest;
 import com.myproject.admin.service.AdminService;
-import com.myproject.clients.CategoryClient;
-import com.myproject.clients.ProductClient;
-import com.myproject.clients.SearchClient;
-import com.myproject.clients.UserClient;
+import com.myproject.clients.*;
 import com.myproject.pojo.Category;
 import com.myproject.pojo.Product;
 import com.myproject.pojo.User;
@@ -55,6 +52,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private ProductClient productClient;
+
+    @Autowired
+    private OrderClient orderClient;
 
     @Override
     public AdminUser login(AdminUserRequest adminUserRequest) {
@@ -153,6 +153,13 @@ public class AdminServiceImpl implements AdminService {
     public R removeProduct(Integer productId) {
         R r = productClient.productRemove(productId);
         log.info("AdminServiceImpl执行结束，结果{removeProduct}",r);
+        return r;
+    }
+
+    @Override
+    public R orderList(PageRequest pageRequest) {
+        R r = orderClient.orderListGroup(pageRequest);
+        log.info("AdminServiceImpl执行结束，结果{orderList}",r);
         return r;
     }
 }
