@@ -53,4 +53,9 @@ public class CollectionController {
         }
         return collectionService.remove(collect);
     }
+
+    @PostMapping("remove/product")
+    public R removeByProductId(@RequestBody Integer productId){
+        return collectionService.removeByProductId(productId);
+    }
 }

@@ -61,4 +61,9 @@ public class CartController {
         }
         return cartService.removeCart(cartSaveRequest);
     }
+
+    @PostMapping("count")
+    public Long productCount(@RequestBody Integer productId){
+        return cartService.productCount(productId);
+    }
 }

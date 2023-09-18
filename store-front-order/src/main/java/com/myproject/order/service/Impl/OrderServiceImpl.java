@@ -124,4 +124,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         return ok;
     }
+
+    @Override
+    public Long productCount(Integer productId) {
+        QueryWrapper<Order> orderQueryWrapper=new QueryWrapper<>();
+        orderQueryWrapper.eq("product_id",productId);
+        long count = count(orderQueryWrapper);
+        return count;
+    }
 }

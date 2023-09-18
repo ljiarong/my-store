@@ -142,4 +142,13 @@ public class CartServiceImpl implements CartService {
         cartMapper.deleteBatchIds(cartIds);
         log.info("CartServiceImpl执行结束，结果{clearIds}",cartIds);
     }
+
+    @Override
+    public Long productCount(Integer productId) {
+
+        QueryWrapper<Cart> cartQueryWrapper=new QueryWrapper<>();
+        cartQueryWrapper.eq("product_id",productId);
+        Long count = cartMapper.selectCount(cartQueryWrapper);
+        return count;
+    }
 }

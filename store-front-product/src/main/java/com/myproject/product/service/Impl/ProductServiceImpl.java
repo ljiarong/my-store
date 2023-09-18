@@ -7,11 +7,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.myproject.clients.CategoryClient;
-import com.myproject.clients.ProductClient;
-import com.myproject.clients.SearchClient;
+import com.myproject.clients.*;
 import com.myproject.message.OrderToProduct;
 import com.myproject.pojo.Category;
+import com.myproject.pojo.Collect;
 import com.myproject.pojo.Picture;
 import com.myproject.pojo.Product;
 import com.myproject.product.mapper.PictureMapper;
@@ -20,16 +19,18 @@ import com.myproject.product.service.ProductService;
 import com.myproject.request.*;
 import com.myproject.utils.R;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.Query;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -53,6 +54,14 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
 
     @Autowired
     private PictureMapper pictureMapper;
+
+    @Autowired
+    private OrderClient orderClient;
+    @Autowired
+    private CartClient cartClient;
+    @Autowired
+    private CollectClient collectClient;   //TODO:太臃肿了，考虑把controller分开写
+
     /**
     * @Author: ljr
     * @Description: 查询类别商品
@@ -201,5 +210,64 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
         productQueryWrapper.eq("category_id",categoryId);
         Long aLong = baseMapper.selectCount(productQueryWrapper);
         return aLong;
+    }
+
+    @CacheEvict(value = "list.product",allEntries = true)
+    @Override
+    public R productSave(ProductSaveRequest productSaveRequest) {
+        Product product=new Product();
+        BeanUtils.copyProperties(productSaveRequest,product);
+
+        save(product);
+        log.info("ProductServiceImpl执行结束，结果{productSave保存}");
+
+        String pictures = productSaveRequest.getPictures();
+        if (!StringUtils.isEmpty(pictures)) {
+            String[] pictureAdd = pictures.split("\\+");
+            List<Picture> pictureList=new ArrayList<>();
+            for (String s : pictureAdd) {
+                Picture picture=new Picture();
+                picture.setProductId(product.getProductId());
+                picture.setProductPicture(s);
+                pictureMapper.insert(picture);   //插入商品图片
+            }
+        }
+
+        searchClient.saveProduct(product);
+        return R.ok("商品数据添加成功");
+    }
+
+
+    @CacheEvict(value = "list.product",allEntries = true)
+    @Override
+    public R productUpdate(Product product) {
+        updateById(product);
+        searchClient.saveProduct(product);
+        return R.ok("商品更新成功");
+    }
+
+
+    @Caching(evict = {
+            @CacheEvict(value = "list.product",allEntries = true),
+            @CacheEvict(value = "product",key = "#productId")
+    })
+    @Override
+    public R productRemove(Integer productId) {
+        Long cartCount= cartClient.productCount(productId);
+        Long orderCount= orderClient.productCount(productId);
+        if (cartCount>0) {
+            log.info("ProductServiceImpl执行结束，结果{productRemove cartfail}");
+            return R.fail("购物车存在引用,删除失败");
+        } else if (orderCount>0) {
+            log.info("ProductServiceImpl执行结束，结果{productRemove orderfail}");
+            return R.fail("订单存在引用,删除失败");
+        }
+        productMapper.deleteById(productId);
+        QueryWrapper<Picture> pictureQueryWrapper=new QueryWrapper<>();
+        pictureQueryWrapper.eq("product_id",productId);
+        pictureMapper.delete(pictureQueryWrapper);
+        collectClient.removeByProductId(productId);
+        searchClient.removeProduct(productId);
+        return R.ok("商品删除成功");
     }
 }

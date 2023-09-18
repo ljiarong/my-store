@@ -73,4 +73,13 @@ public class CollectionServiceImpl implements CollectionService {
         log.info("CollectionServiceImpl执行结束，结果{remove}",rows);
         return R.ok("收藏删除成功");
     }
+
+    @Override
+    public R removeByProductId(Integer productId) {
+        QueryWrapper<Collect> collectQueryWrapper=new QueryWrapper<>();
+        collectQueryWrapper.eq("product_id",productId);
+        int delete = collectionMapper.delete(collectQueryWrapper);
+        log.info("CollectionServiceImpl执行结束，结果{removeByProductId}",delete);
+        return R.ok("收藏删除成功");
+    }
 }

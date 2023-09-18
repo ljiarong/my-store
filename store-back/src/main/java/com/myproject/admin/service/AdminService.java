@@ -3,8 +3,11 @@ package com.myproject.admin.service;
 import com.myproject.admin.pojo.AdminUser;
 import com.myproject.admin.request.AdminUserRequest;
 import com.myproject.pojo.Category;
+import com.myproject.pojo.Product;
 import com.myproject.pojo.User;
 import com.myproject.request.PageRequest;
+import com.myproject.request.ProductSaveRequest;
+import com.myproject.request.ProductSearchRequest;
 import com.myproject.request.UserIdRequest;
 import com.myproject.utils.R;
 
@@ -30,4 +33,12 @@ public interface AdminService {
     R categoryRemove(Integer categoryId);
 
     R categoryUpdate(Category category);
+
+    R productSearch(ProductSearchRequest productSearchRequest);
+
+    R productSave(ProductSaveRequest productSaveRequest);
+
+    R updateProduct(Product product);
+
+    R removeProduct(Integer productId);
 }

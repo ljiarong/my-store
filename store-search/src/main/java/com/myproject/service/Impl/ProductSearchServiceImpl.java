@@ -5,16 +5,20 @@ package com.myproject.service.Impl;/**
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myproject.doc.ProductDoc;
 import com.myproject.pojo.Product;
 import com.myproject.request.ProductSearchRequest;
 import com.myproject.service.ProductSearchService;
 import com.myproject.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -89,5 +93,24 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         log.info("ProductSearchServiceImpl执行结束，结果{searchProduct}",ok);
 
         return ok;
+    }
+
+    @Override
+    public R saveProduct(Product product) throws IOException {
+        IndexRequest indexRequest=new IndexRequest("product").id(product.getProductId().toString());
+        ObjectMapper objectMapper=new ObjectMapper();
+        String s = objectMapper.writeValueAsString(new ProductDoc(product));
+        indexRequest.source(s, XContentType.JSON);
+        restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
+
+        return R.ok("数据同步成功!");
+    }
+
+    @Override
+    public R removeProduct(Integer productId) throws IOException {
+        DeleteRequest deleteRequest=new DeleteRequest("product").id(productId.toString());
+        restHighLevelClient.delete(deleteRequest,RequestOptions.DEFAULT);
+
+        return R.ok("数据删除成功");
     }
 }

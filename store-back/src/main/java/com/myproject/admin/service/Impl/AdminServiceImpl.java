@@ -11,10 +11,15 @@ import com.myproject.admin.pojo.AdminUser;
 import com.myproject.admin.request.AdminUserRequest;
 import com.myproject.admin.service.AdminService;
 import com.myproject.clients.CategoryClient;
+import com.myproject.clients.ProductClient;
+import com.myproject.clients.SearchClient;
 import com.myproject.clients.UserClient;
 import com.myproject.pojo.Category;
+import com.myproject.pojo.Product;
 import com.myproject.pojo.User;
 import com.myproject.request.PageRequest;
+import com.myproject.request.ProductSaveRequest;
+import com.myproject.request.ProductSearchRequest;
 import com.myproject.request.UserIdRequest;
 import com.myproject.utils.MD5Util;
 import com.myproject.utils.R;
@@ -44,6 +49,12 @@ public class AdminServiceImpl implements AdminService {
     private UserClient userClient;
     @Autowired
     private CategoryClient categoryClient;
+
+    @Autowired
+    private SearchClient searchClient;   //TODO:这里最好把service分开来写，不然太臃肿了
+
+    @Autowired
+    private ProductClient productClient;
 
     @Override
     public AdminUser login(AdminUserRequest adminUserRequest) {
@@ -114,6 +125,34 @@ public class AdminServiceImpl implements AdminService {
     public R categoryUpdate(Category category) {
         R r = categoryClient.categoryUpdate(category);
         log.info("AdminServiceImpl执行结束，结果{categoryUpdate}",r);
+        return r;
+    }
+
+    @Override
+    public R productSearch(ProductSearchRequest productSearchRequest) {
+        R r = searchClient.searchProduct(productSearchRequest);
+        log.info("AdminServiceImpl执行结束，结果{productSearch}",r);
+        return r;
+    }
+
+    @Override
+    public R productSave(ProductSaveRequest productSaveRequest) {
+        R r = productClient.productSave(productSaveRequest);
+        log.info("AdminServiceImpl执行结束，结果{productSave}",r);
+        return r;
+    }
+
+    @Override
+    public R updateProduct(Product product) {
+        R r = productClient.productUpdate(product);
+        log.info("AdminServiceImpl执行结束，结果{updateProduct}",r);
+        return r;
+    }
+
+    @Override
+    public R removeProduct(Integer productId) {
+        R r = productClient.productRemove(productId);
+        log.info("AdminServiceImpl执行结束，结果{removeProduct}",r);
         return r;
     }
 }

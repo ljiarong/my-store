@@ -4,6 +4,8 @@ package com.myproject.admin.controller;/**
  */
 
 import com.myproject.clients.CategoryClient;
+import com.myproject.pojo.Category;
+import com.myproject.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -136,8 +140,16 @@ public class HtmlJumpController {
         log.info("HtmlJumpController.productSaveHtml业务结束，结果:{}");
 
         //查询类别列表,存入共享域
-        //List<Category> list = categoryClient.list();
-       // model.addAttribute("clist",list);
+        R r=categoryClient.list();
+        List<LinkedHashMap> data=(List<LinkedHashMap>) r.getData();
+        List<Category> categories=new ArrayList<>();
+        for (LinkedHashMap map : data) {
+            Category category=new Category();
+            category.setCategoryId((Integer) map.get("category_id"));
+            category.setCategoryName((String) map.get("category_name"));
+            categories.add(category);
+        }
+        model.addAttribute("clist",categories);
         return "product/add";
     }
 
@@ -150,8 +162,16 @@ public class HtmlJumpController {
         log.info("HtmlJumpController.productUpdateHtml业务结束，结果:{}");
 
         //查询类别列表,存入共享域
-       // List<Category> list = categoryClient.list();
-        //model.addAttribute("clist",list);
+        R r=categoryClient.list();
+        List<LinkedHashMap> data=(List<LinkedHashMap>) r.getData();
+        List<Category> categories=new ArrayList<>();
+        for (LinkedHashMap map : data) {
+            Category category=new Category();
+            category.setCategoryId((Integer) map.get("category_id"));
+            category.setCategoryName((String) map.get("category_name"));
+            categories.add(category);
+        }
+        model.addAttribute("clist",categories);
         return "product/edit";
     }
 }

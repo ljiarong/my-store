@@ -30,7 +30,7 @@ import java.io.IOException;
  *
  * @create: 2023-09-10 23:43
  **/
-@Component
+@Component    //TODO:已被弃用，异步方式不适合商品更新后的搜索服务
 public class RabbitMqListener {
     @Autowired
     private RestHighLevelClient restHighLevelClient;

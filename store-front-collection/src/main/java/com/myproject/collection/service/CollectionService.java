@@ -14,4 +14,6 @@ public interface CollectionService {
     R getCollectList(UserIdRequest userIdRequest);
 
     R remove(Collect collect);
+
+    R removeByProductId(Integer productId);
 }

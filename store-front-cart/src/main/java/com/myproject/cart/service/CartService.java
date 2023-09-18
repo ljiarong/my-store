@@ -20,4 +20,6 @@ public interface CartService {
     R removeCart(CartSaveRequest cartSaveRequest);
 
     void clearIds(List<Integer> cartIds);
+
+    Long productCount(Integer productId);
 }

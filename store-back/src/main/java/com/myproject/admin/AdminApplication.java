@@ -4,6 +4,8 @@ package com.myproject.admin;/**
  */
 
 import com.myproject.clients.CategoryClient;
+import com.myproject.clients.ProductClient;
+import com.myproject.clients.SearchClient;
 import com.myproject.clients.UserClient;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -23,7 +25,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @MapperScan(basePackages = "com.myproject.admin.mapper")
 @EnableCaching
-@EnableFeignClients(clients = {CategoryClient.class, UserClient.class})
+@EnableFeignClients(clients = {CategoryClient.class, UserClient.class, SearchClient.class,ProductClient.class})
 public class AdminApplication {
     public static void main(String[] args) {
         SpringApplication.run(AdminApplication.class,args);

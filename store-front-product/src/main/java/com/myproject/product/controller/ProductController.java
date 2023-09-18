@@ -3,6 +3,7 @@ package com.myproject.product.controller;/**
  * Package: com.myproject.product.controller
  */
 
+import com.myproject.pojo.Product;
 import com.myproject.product.service.ProductService;
 import com.myproject.request.*;
 import com.myproject.utils.R;
@@ -88,8 +89,24 @@ public class ProductController {
         return productService.getProductListById(productIdListRequest);
     }
 
-    @PostMapping("count")
+    @PostMapping("admin/count")
     public Long productCount(@RequestBody Integer categoryId){
         return productService.productCount(categoryId);
     }
+
+    @PostMapping("admin/save")
+    public R productSave(@RequestBody ProductSaveRequest productSaveRequest){
+        return productService.productSave(productSaveRequest);
+    }
+
+    @PostMapping("admin/update")
+    public R productUpdate(@RequestBody Product product){
+        return productService.productUpdate(product);
+    }
+
+    @PostMapping("admin/remove")
+    public R productRemove(@RequestBody Integer productId){
+        return productService.productRemove(productId);
+    }
+
 }

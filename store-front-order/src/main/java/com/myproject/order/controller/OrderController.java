@@ -48,4 +48,9 @@ public class OrderController {
         return orderService.orderList(userIdRequest.getUserId());
 
     }
+
+    @PostMapping("count")
+    public Long prductCount(@RequestBody Integer productId){
+        return orderService.productCount(productId);
+    }
 }

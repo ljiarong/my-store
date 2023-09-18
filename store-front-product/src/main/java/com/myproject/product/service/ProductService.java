@@ -60,4 +60,10 @@ public interface ProductService extends IService<Product> {
     void subNumber(List<OrderToProduct> orderToProducts);
 
     Long productCount(Integer categoryId);
+
+    R productSave(ProductSaveRequest productSaveRequest);
+
+    R productUpdate(Product product);
+
+    R productRemove(Integer productId);
 }
